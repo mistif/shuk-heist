@@ -13,7 +13,7 @@ export const SEARCH_UNAVAILABLE =
 export const canSee = (viewer: Viewer) => (doc: Document) =>
   doc.metadata.visibleTo.includes(viewer);
 
-export function makeSearchTool(viewer: Viewer, loadStore = getStore) {
+export function makeSearchTool(viewer: Viewer, loadStore = getStore, levelRule?: string) {
   return tool(
     async ({ query }) => {
       // LangChain hands tool errors to the model as text, so catch them here:
@@ -22,9 +22,10 @@ export function makeSearchTool(viewer: Viewer, loadStore = getStore) {
         const store = await loadStore();
         const docs = await store.similaritySearch(query, 4, canSee(viewer));
         if (docs.length === 0) return "No documents found.";
-        return docs
+        const found = docs
           .map((d) => `[${d.metadata.id}] ${d.metadata.title}\n${d.pageContent}`)
           .join("\n\n");
+        return levelRule ? `${found}\n\n${levelRule}` : found;
       } catch (err) {
         console.error(err);
         return SEARCH_UNAVAILABLE;

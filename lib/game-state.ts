@@ -1,4 +1,5 @@
 import * as z from "zod";
+import { DEFAULT_DIFFICULTY, DIFFICULTY_IDS, type DifficultyId } from "./difficulty";
 import { SUSPECT_IDS, type SuspectId } from "./suspects";
 
 const STORAGE_KEY = "shuk-heist-game";
@@ -26,6 +27,8 @@ const VerdictSchema = z.object({
 const GameStateSchema = z.object({
   id: z.string(),
   players: z.number().int().min(1).max(4),
+  // The default keeps games saved before difficulty existed loading.
+  difficulty: z.enum(DIFFICULTY_IDS).default(DEFAULT_DIFFICULTY),
   accusationsLeft: z.number().int().min(0).max(2),
   accused: z.array(Suspect),
   chats: z.object({ assistant: Chat, dani: Chat, noa: Chat, yossi: Chat, maya: Chat }),
@@ -48,10 +51,15 @@ export const browserStorage: GameStorage = {
   removeItem: (key) => window.localStorage.removeItem(key),
 };
 
-export function newGame(players: number, id: string = crypto.randomUUID()): GameState {
+export function newGame(
+  players: number,
+  id: string = crypto.randomUUID(),
+  difficulty: DifficultyId = DEFAULT_DIFFICULTY,
+): GameState {
   return {
     id,
     players,
+    difficulty,
     accusationsLeft: players === 1 ? 1 : 2,
     accused: [],
     chats: { assistant: [], dani: [], noa: [], yossi: [], maya: [] },

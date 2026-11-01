@@ -1,7 +1,8 @@
 import "server-only";
 import { ChatOpenAI } from "@langchain/openai";
 import { createAgent } from "langchain";
-import { ASSISTANT_PROMPT, suspectPrompt } from "./prompts";
+import type { DifficultyId } from "./difficulty";
+import { ASSISTANT_PROMPT, LEVEL_REMINDERS, suspectPrompt } from "./prompts";
 import { getStore } from "./store";
 import type { SuspectId } from "./suspects";
 import { makeSearchTool } from "./tools";
@@ -24,18 +25,19 @@ function makeAssistant() {
   });
 }
 
-function makeSuspect(id: SuspectId) {
+function makeSuspect(id: SuspectId, difficulty: DifficultyId, claimNote?: string) {
+  const prompt = suspectPrompt(id, difficulty);
   return createAgent({
     model: makeModel(),
-    tools: [makeSearchTool(id)],
-    systemPrompt: suspectPrompt(id),
+    tools: [makeSearchTool(id, getStore, LEVEL_REMINDERS[difficulty])],
+    systemPrompt: claimNote ? `${prompt}\n\n${claimNote}` : prompt,
     responseFormat: SuspectReply,
   });
 }
 
 // Created on first use so that importing this file during `next build` needs no API key.
 let assistant: ReturnType<typeof makeAssistant> | null = null;
-const suspects = new Map<SuspectId, ReturnType<typeof makeSuspect>>();
+const suspects = new Map<string, ReturnType<typeof makeSuspect>>();
 
 // Routes call this first, so a failed store build returns a 500 instead of reaching the model.
 export async function prepareSearch() {
@@ -47,11 +49,15 @@ export function getAssistant() {
   return assistant;
 }
 
-export function getSuspect(id: SuspectId) {
-  let agent = suspects.get(id);
+export function getSuspect(id: SuspectId, difficulty: DifficultyId, claimNote?: string) {
+  // A claim note changes on every message, so that agent is built fresh and not cached.
+  if (claimNote) return makeSuspect(id, difficulty, claimNote);
+
+  const key = `${id}:${difficulty}`;
+  let agent = suspects.get(key);
   if (!agent) {
-    agent = makeSuspect(id);
-    suspects.set(id, agent);
+    agent = makeSuspect(id, difficulty);
+    suspects.set(key, agent);
   }
   return agent;
 }

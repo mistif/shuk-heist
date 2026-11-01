@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { difficultyName } from "@/lib/difficulty";
 import {
   applyAccusation,
   applyExchange,
@@ -56,8 +57,8 @@ export default function Game() {
   if (!game) {
     return (
       <StartScreen
-        onStart={(players) => {
-          setGame(newGame(players));
+        onStart={(players, difficulty) => {
+          setGame(newGame(players, undefined, difficulty));
           setShowBriefing(true);
         }}
       />
@@ -80,6 +81,7 @@ export default function Game() {
     const url = chat === "assistant" ? "/api/assistant" : `/api/suspect/${chat}`;
     const { reply, nervousness } = await postJson<{ reply: string; nervousness?: number }>(url, {
       messages,
+      difficulty: current.difficulty,
     });
     setGame((g) => g && applyExchange(g, current.id, chat, text, reply, nervousness));
   }
@@ -100,6 +102,7 @@ export default function Game() {
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
           <p className="typewriter text-muted">
             {game.players === 1 ? "You vs. the thief" : "Team vs. the thief"}
+            {`. ${difficultyName(game.difficulty)} level`}
           </p>
           <button onClick={() => setShowBriefing(true)} className="briefing-link typewriter">
             How to play

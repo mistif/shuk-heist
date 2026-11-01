@@ -24,6 +24,19 @@ describe("suspect prompts", () => {
     }
   });
 
+  it("change how suspects lie by difficulty, with no secrets added", () => {
+    expect(suspectPrompt("maya", "rookie")).toContain("bad liar");
+    expect(suspectPrompt("maya", "inspector")).toContain("expert liar");
+    expect(suspectPrompt("maya")).toBe(suspectPrompt("maya", "detective"));
+    for (const level of ["rookie", "detective", "inspector"] as const) {
+      for (const marker of SECRET_MARKERS) expect(suspectPrompt("maya", level)).not.toContain(marker);
+    }
+  });
+
+  it("tell suspects not to repeat themselves", () => {
+    expect(suspectPrompt("maya")).toContain("Never reuse a sentence");
+  });
+
   it("keep every agent on the case", () => {
     expect(ASSISTANT_PROMPT).toContain("You only work on this case");
     for (const id of SUSPECT_IDS) expect(suspectPrompt(id)).toContain("You are this person and nothing else");

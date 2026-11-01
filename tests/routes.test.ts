@@ -2,10 +2,19 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const invoke = vi.fn();
 const prepareSearch = vi.fn();
+const getSuspect = vi.fn();
+const checkClaims = vi.fn();
+vi.mock("@/lib/claims", () => ({
+  checkClaims: (messages: string[]) => checkClaims(messages),
+  claimNote: () => "NOTE",
+}));
 vi.mock("@/lib/agents", () => ({
   AGENT_RUN_LIMITS: {},
   getAssistant: () => ({ invoke }),
-  getSuspect: () => ({ invoke }),
+  getSuspect: (...args: unknown[]) => {
+    getSuspect(...args);
+    return { invoke };
+  },
   prepareSearch: () => prepareSearch(),
 }));
 const rateLimited = vi.fn();
@@ -32,7 +41,45 @@ beforeEach(() => {
   rateLimited.mockReset();
   isOnTopic.mockReset();
   isOnTopic.mockResolvedValue(true);
+  getSuspect.mockReset();
+  checkClaims.mockReset();
+  checkClaims.mockResolvedValue({ real: [], fake: [] });
   vi.spyOn(console, "error").mockImplementation(() => {});
+});
+
+describe("difficulty", () => {
+  const answer = { structuredResponse: { reply: "No.", nervousness: 1 } };
+
+  it("defaults to detective and skips the claim check", async () => {
+    invoke.mockResolvedValue(answer);
+    await suspect(post(chat), ctx("maya"));
+    expect(getSuspect).toHaveBeenCalledWith("maya", "detective", undefined);
+    expect(checkClaims).not.toHaveBeenCalled();
+  });
+
+  it("checks every player message on inspector, and passes the note", async () => {
+    invoke.mockResolvedValue(answer);
+    const messages = [
+      { role: "user", content: "first" },
+      { role: "assistant", content: "reply" },
+      { role: "user", content: "second" },
+    ];
+    await suspect(post({ messages, difficulty: "inspector" }), ctx("maya"));
+    expect(checkClaims).toHaveBeenCalledWith(["first", "second"]);
+    expect(getSuspect).toHaveBeenCalledWith("maya", "inspector", "NOTE");
+  });
+
+  it("fails closed if the claim check breaks", async () => {
+    checkClaims.mockRejectedValue(new Error("down"));
+    const res = await suspect(post({ ...chat, difficulty: "inspector" }), ctx("maya"));
+    expect(res.status).toBe(500);
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it("rejects an unknown difficulty", async () => {
+    const res = await suspect(post({ ...chat, difficulty: "impossible" }), ctx("maya"));
+    expect(res.status).toBe(400);
+  });
 });
 
 describe("topic guard", () => {

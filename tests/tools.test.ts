@@ -31,6 +31,11 @@ describe("search_files", () => {
     expect(output).not.toContain("Golden Spoon");
   });
 
+  it("adds the level rule after the documents", async () => {
+    const output = await makeSearchTool("dani", load, "LEVEL RULE").invoke({ query: "anything" });
+    expect(output.endsWith("LEVEL RULE")).toBe(true);
+  });
+
   it("returns at most 4 documents to the detective", async () => {
     const output = await makeSearchTool("detective", load).invoke({ query: "notebook" });
     expect(output.match(/^\[[A-Z]\d\]/gm)).toHaveLength(4);

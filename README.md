@@ -20,6 +20,14 @@ Run the tests with `npm test`. They need no API key.
 
 All documents live in one `MemoryVectorStore`, and every agent searches it through a `visibleTo` filter (`lib/tools.ts`). The answer lives in `lib/solution.ts`, outside the store and out of every agent's reach. The browser holds chat history and sends it with each message, and the server validates it.
 
+## Difficulty
+
+Pick how well the suspects lie on the start screen:
+
+- **Rookie:** they lie badly, and one real piece of evidence is meant to crack them.
+- **Detective:** they follow the REVEAL rules in their files exactly.
+- **Inspector:** they lie smoothly, and `lib/claims.ts` checks what the player says against the case files first, so made-up evidence gets called out.
+
 ## Staying on the case
 
 - Each agent searches only its own documents, so a suspect can't retrieve another suspect's file.

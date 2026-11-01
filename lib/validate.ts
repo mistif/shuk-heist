@@ -1,5 +1,6 @@
 import "server-only";
 import * as z from "zod";
+import { DEFAULT_DIFFICULTY, DIFFICULTY_IDS } from "./difficulty";
 import { SUSPECT_IDS } from "./suspects";
 
 export const USER_MESSAGE_MAX = 2000;
@@ -17,6 +18,7 @@ export const ChatRequest = z.object({
     .min(1)
     .max(MESSAGES_MAX)
     .refine((m) => m.at(-1)?.role === "user", "The last message must come from the player"),
+  difficulty: z.enum(DIFFICULTY_IDS).default(DEFAULT_DIFFICULTY),
 });
 
 export const AccuseRequest = z.object({

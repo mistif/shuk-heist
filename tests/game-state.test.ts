@@ -121,6 +121,17 @@ describe("save and load", () => {
     expect(loadGame(blocked)).toBeNull();
   });
 
+  it("keeps the chosen difficulty, and loads older saves as detective", () => {
+    const storage = fakeStorage();
+    saveGame(storage, newGame(2, "g", "inspector"));
+    expect(loadGame(storage)?.difficulty).toBe("inspector");
+
+    const older: Partial<ReturnType<typeof newGame>> = newGame(2, "old");
+    delete older.difficulty;
+    storage.setItem("shuk-heist-game", JSON.stringify(older));
+    expect(loadGame(storage)?.difficulty).toBe("detective");
+  });
+
   it("doesn't throw when storage is blocked", () => {
     expect(() => saveGame(blocked, newGame(1))).not.toThrow();
     expect(() => clearGame(blocked)).not.toThrow();
