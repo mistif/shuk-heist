@@ -17,7 +17,10 @@ import {
 } from "@/lib/game-state";
 import { SUSPECT_IDS, SUSPECTS, suspectName, type SuspectId } from "@/lib/suspects";
 import AccusePanel from "./AccusePanel";
+import Briefing from "./Briefing";
+import CaseProgress from "./CaseProgress";
 import ChatPanel from "./ChatPanel";
+import InterrogationRoom from "./InterrogationRoom";
 import StartScreen from "./StartScreen";
 import SuspectCard from "./SuspectCard";
 import VerdictScreen from "./VerdictScreen";
@@ -28,7 +31,8 @@ async function postJson<T>(url: string, body: unknown): Promise<T> {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
-  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+  if (res.status === 429) throw new Error("Too many questions. Take a breath and try again soon.");
+  if (!res.ok) throw new Error("Lost contact, try again.");
   return res.json();
 }
 
@@ -41,6 +45,7 @@ function chatTitle(chat: ChatId) {
 export default function Game() {
   const [game, setGame] = useState<GameState | null>(() => loadGame(browserStorage));
   const [openChat, setOpenChat] = useState<ChatId>("assistant");
+  const [showBriefing, setShowBriefing] = useState(false);
   const gameRef = useRef(game);
 
   useEffect(() => {
@@ -49,7 +54,14 @@ export default function Game() {
   }, [game]);
 
   if (!game) {
-    return <StartScreen onStart={(players) => setGame(newGame(players))} />;
+    return (
+      <StartScreen
+        onStart={(players) => {
+          setGame(newGame(players));
+          setShowBriefing(true);
+        }}
+      />
+    );
   }
 
   function resetGame() {
@@ -85,16 +97,35 @@ export default function Game() {
     <main className="stage mx-auto flex w-full max-w-[86rem] flex-1 flex-col gap-3 px-4 py-4">
       <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h1 className="neon-title text-[clamp(1.5rem,4vw,2.25rem)]">The Shuk Recipe Heist</h1>
-        <p className="typewriter text-muted">
-          {game.players === 1 ? "You vs. the thief" : "Team vs. the thief"}
-        </p>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <p className="typewriter text-muted">
+            {game.players === 1 ? "You vs. the thief" : "Team vs. the thief"}
+          </p>
+          <button onClick={() => setShowBriefing(true)} className="briefing-link typewriter">
+            How to play
+          </button>
+        </div>
       </header>
 
+      <CaseProgress game={game} />
+
+      {openChat !== "assistant" && <div key={openChat} className="room-bg" aria-hidden="true" />}
+
+      {showBriefing && (
+        <Briefing
+          accusations={game.players === 1 ? 1 : 2}
+          onClose={() => setShowBriefing(false)}
+        />
+      )}
+
       <div className="board">
-        <div className="board-chat">
+        <div className={`board-chat ${openChat !== "assistant" ? "with-room" : ""}`}>
+          {openChat !== "assistant" && (
+            <InterrogationRoom key={openChat} id={openChat} nervousness={game.nervousness[openChat]} />
+          )}
           {/* All panels stay mounted so switching chats keeps each draft and pending reply. */}
           {CHATS.map((chat) => (
-            <div key={chat} className={chat === openChat ? "flex min-w-0" : "hidden"}>
+            <div key={chat} className={chat === openChat ? "chat-column flex min-w-0" : "hidden"}>
               <ChatPanel
                 title={chatTitle(chat)}
                 speaker={chat === "assistant" ? "Case Assistant" : suspectName(chat)}

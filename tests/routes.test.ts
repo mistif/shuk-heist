@@ -3,9 +3,18 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const invoke = vi.fn();
 const prepareSearch = vi.fn();
 vi.mock("@/lib/agents", () => ({
+  AGENT_RUN_LIMITS: {},
   getAssistant: () => ({ invoke }),
   getSuspect: () => ({ invoke }),
   prepareSearch: () => prepareSearch(),
+}));
+const rateLimited = vi.fn();
+vi.mock("@/lib/rate-limit", () => ({ rateLimited: () => rateLimited() }));
+const isOnTopic = vi.fn();
+vi.mock("@/lib/guard", () => ({
+  ASSISTANT_REFUSAL: "Case only.",
+  SUSPECT_REFUSALS: { dani: "I sell hummus." },
+  isOnTopic: (text: string) => isOnTopic(text),
 }));
 
 import { POST as accuse } from "@/app/api/accuse/route";
@@ -20,7 +29,57 @@ const ctx = (id: string) => ({ params: Promise.resolve({ id }) });
 beforeEach(() => {
   invoke.mockReset();
   prepareSearch.mockReset();
+  rateLimited.mockReset();
+  isOnTopic.mockReset();
+  isOnTopic.mockResolvedValue(true);
   vi.spyOn(console, "error").mockImplementation(() => {});
+});
+
+describe("topic guard", () => {
+  it("answers the assistant's off-topic message without running the agent", async () => {
+    isOnTopic.mockResolvedValue(false);
+    expect(await (await assistant(post(chat))).json()).toEqual({ reply: "Case only." });
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it("answers a suspect's off-topic message in character and leaves the meter alone", async () => {
+    isOnTopic.mockResolvedValue(false);
+    expect(await (await suspect(post(chat), ctx("dani"))).json()).toEqual({ reply: "I sell hummus." });
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it("checks only the player's newest message", async () => {
+    isOnTopic.mockResolvedValue(false);
+    const messages = [
+      { role: "user", content: "old" },
+      { role: "assistant", content: "reply" },
+      { role: "user", content: "newest" },
+    ];
+    await assistant(post({ messages }));
+    expect(isOnTopic).toHaveBeenCalledWith("newest");
+  });
+
+  it("fails closed when the guard itself breaks", async () => {
+    isOnTopic.mockRejectedValue(new Error("guard down"));
+    expect((await assistant(post(chat))).status).toBe(500);
+    expect(invoke).not.toHaveBeenCalled();
+  });
+});
+
+describe("rate limit", () => {
+  const limited = () => Response.json({ error: "Too many questions." }, { status: 429 });
+
+  it("stops the assistant before it runs", async () => {
+    rateLimited.mockImplementation(limited);
+    expect((await assistant(post(chat))).status).toBe(429);
+    expect(invoke).not.toHaveBeenCalled();
+  });
+
+  it("stops a suspect before it runs", async () => {
+    rateLimited.mockImplementation(limited);
+    expect((await suspect(post(chat), ctx("dani"))).status).toBe(429);
+    expect(invoke).not.toHaveBeenCalled();
+  });
 });
 
 describe("/api/accuse", () => {

@@ -20,6 +20,12 @@ Run the tests with `npm test`. They need no API key.
 
 All documents live in one `MemoryVectorStore`, and every agent searches it through a `visibleTo` filter (`lib/tools.ts`). The answer lives in `lib/solution.ts`, outside the store and out of every agent's reach. The browser holds chat history and sends it with each message, and the server validates it.
 
+## Staying on the case
+
+- Each agent searches only its own documents, so a suspect can't retrieve another suspect's file.
+- A separate check (`lib/guard.ts`) reads each player message before any agent runs. Off-topic requests, like code or homework, get a fixed in-character reply and never reach an agent. Prompt rules alone weren't enough: in testing, suspects still wrote poems.
+- `lib/rate-limit.ts` allows 15 messages a minute and 150 a day per address, and 1,500 a day across the whole game. Replies and agent steps are capped too. The counts live in server memory, so they reset on restart.
+
 ## Known trade-off
 
 The server keeps no game state, so someone with dev tools could reset their accusations or send `final: true` to `/api/accuse` to see the answer. That's acceptable for a class game, and it keeps the project free of a database.

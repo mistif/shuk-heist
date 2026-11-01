@@ -5,6 +5,20 @@ import type { ChatMessage } from "@/lib/game-state";
 
 const INPUT_MAX = 2000;
 
+// Public document names, shown when a player hovers a citation. Private files are never cited.
+const DOCUMENT_NAMES: Record<string, string> = {
+  "[B1]": "Background on the Shuk and the championship",
+  "[C1]": "Police incident report",
+  "[C2]": "Evidence log",
+  "[C3]": "Statement from Rina Shalev",
+  "[C4]": "Night patrol log",
+  "[C5]": "Social media story",
+  "[S1]": "Statement from Dani Levi",
+  "[S2]": "Statement from Noa Shalev",
+  "[S3]": "Statement from Yossi Ben-David",
+  "[S4]": "Statement from Maya Katz",
+};
+
 export default function ChatPanel({
   title,
   speaker,
@@ -24,7 +38,7 @@ export default function ChatPanel({
 }) {
   const [draft, setDraft] = useState("");
   const [pending, setPending] = useState<string | null>(null);
-  const [failed, setFailed] = useState(false);
+  const [failure, setFailure] = useState<string | null>(null);
   const logRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,14 +50,16 @@ export default function ChatPanel({
     const text = draft.trim();
     if (!text || pending) return;
     setPending(text);
-    setFailed(false);
+    setFailure(null);
     setDraft("");
     try {
       await onSend(text);
-    } catch {
-      // The message goes back in the box so the player can resend it.
+    } catch (err) {
+      // The message goes back in the box so the player can resend it. A network failure
+      // has its own browser wording, so only our own messages are shown as they are.
       setDraft(text);
-      setFailed(true);
+      const message = err instanceof Error ? err.message : "";
+      setFailure(message.startsWith("Too many") ? message : "Lost contact, try again.");
     } finally {
       setPending(null);
     }
@@ -81,9 +97,9 @@ export default function ChatPanel({
           </>
         )}
       </div>
-      {failed && (
+      {failure && (
         <p role="alert" className="chat-bar px-4 py-1 text-sm text-danger">
-          Lost contact, try again.
+          {failure}
         </p>
       )}
       <form onSubmit={submit} className="chat-bar flex gap-2 rounded-b-[13px] border-t border-line p-3">
@@ -119,7 +135,7 @@ function Bubble({
       {/* Document citations like [C2] become evidence tags. */}
       {text.split(/(\[[BCSX]\d\])/).map((part, i) =>
         /^\[[BCSX]\d\]$/.test(part) ? (
-          <span key={i} className="cite">
+          <span key={i} className="cite" title={DOCUMENT_NAMES[part]}>
             {part}
           </span>
         ) : (

@@ -433,6 +433,185 @@ body {
 .dots i:nth-child(2) { animation-delay: 0.16s; }
 .dots i:nth-child(3) { animation-delay: 0.32s; }
 
+/* ---------- Case progress trail ---------- */
+
+.case-trail {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.25rem;
+  max-width: 44rem;
+  width: 100%;
+  background: linear-gradient(var(--line), var(--line)) center 9px / 100% 2px no-repeat;
+}
+.case-trail li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-shadow: 0 1px 3px #000, 0 0 6px #000;
+}
+.case-pin {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #1a1b26;
+  border: 2px solid var(--line);
+  transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+.case-trail li.done { color: var(--foreground); }
+.case-trail li.done .case-pin {
+  background: var(--accent);
+  border-color: #ffe2b0;
+  box-shadow: 0 0 14px var(--accent);
+  transform: scale(1.15);
+}
+
+/* ---------- Interrogation room ---------- */
+
+.room-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse 55% 60% at 30% 28%, rgb(255 225 170 / 0.17), transparent 70%),
+    linear-gradient(180deg, transparent 72%, rgb(0 0 0 / 0.55) 72.3%),
+    repeating-linear-gradient(0deg, #23252c 0 62px, #1e2026 62px 64px),
+    #1e2026;
+  box-shadow: inset 0 0 180px 50px #000;
+  animation: fade-in 0.5s ease both;
+}
+
+.board-chat.with-room {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.room-stage {
+  position: relative;
+  flex: none;
+  height: 15rem;
+  overflow: hidden;
+  border-radius: 14px;
+  background: rgb(10 11 16 / 0.45);
+  border: 1px solid var(--line);
+  box-shadow: inset 0 0 70px rgb(0 0 0 / 0.9), 0 18px 40px -18px #000;
+  transition: box-shadow 0.8s ease;
+}
+.room-art { display: block; width: 100%; height: 100%; }
+
+@media (min-width: 1200px) {
+  .board-chat.with-room { flex-direction: row; }
+  .board-chat.with-room .room-stage { flex: 1 1 0; min-width: 0; height: auto; }
+  .board-chat.with-room .chat-column { flex: 0 0 min(30rem, 52%); }
+}
+
+.room-caption {
+  position: absolute;
+  left: 0.6rem;
+  top: 0.6rem;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.8125rem;
+  border-radius: 6px;
+  background: rgb(14 15 25 / 0.9);
+}
+
+.nerve-2 { box-shadow: inset 0 0 90px rgb(150 40 20 / 0.55), 0 18px 40px -18px #000; }
+.nerve-3 { box-shadow: inset 0 0 120px rgb(220 40 20 / 0.75), 0 0 34px -6px rgb(255 60 30 / 0.8); }
+
+/* Doors slide open each time you enter the room. */
+.room-door {
+  position: absolute;
+  z-index: 2;
+  inset-block: 0;
+  width: 50%;
+  background: repeating-linear-gradient(90deg, #30343c 0 22px, #272a31 22px 24px);
+  box-shadow: 0 0 30px #000;
+  pointer-events: none;
+}
+.room-door-left { left: 0; animation: door-left 0.8s cubic-bezier(0.7, 0, 0.2, 1) 0.1s both; }
+.room-door-right { right: 0; animation: door-right 0.8s cubic-bezier(0.7, 0, 0.2, 1) 0.1s both; }
+
+/* Each part of the figure moves more as the suspect gets more nervous. */
+.figure-enter {
+  transform-box: view-box;
+  animation: figure-enter 0.75s cubic-bezier(0.2, 0.9, 0.25, 1.1) 0.45s both;
+}
+.figure-breathe { animation: breathe 4.5s ease-in-out infinite; transform-box: view-box; transform-origin: 200px 330px; }
+.figure-head { transform-box: view-box; transform-origin: 200px 220px; animation: head-idle 7s ease-in-out infinite; }
+.figure-lids { transform-box: fill-box; transform-origin: 50% 0; transform: scaleY(0); animation: blink 5s linear infinite; }
+.figure-pupils { animation: glance 8s ease-in-out infinite; }
+.figure-flush { opacity: 0; transition: opacity 0.8s ease; }
+.figure-sweat { animation: sweat 1.8s ease-in infinite; }
+.figure-hands { transform-box: view-box; transform-origin: 200px 310px; }
+.room-lamp {
+  transform-box: view-box;
+  transform-origin: 200px -500px;
+  animation: lamp-swing 7s ease-in-out infinite alternate;
+}
+
+.nerve-1 .figure-flush { opacity: 0.1; }
+.nerve-1 .figure-lids { animation-duration: 3.2s; }
+.nerve-1 .figure-pupils { animation-duration: 4s; }
+
+.nerve-2 .figure-flush { opacity: 0.22; }
+.nerve-2 .figure-breathe { animation-duration: 2.2s; }
+.nerve-2 .figure-lids { animation-duration: 1.9s; }
+.nerve-2 .figure-pupils { animation-duration: 1.9s; }
+.nerve-2 .figure-hands { animation: fidget 0.9s ease-in-out infinite; }
+.nerve-2 .room-lamp { animation-duration: 4s; }
+
+.nerve-3 .figure-flush { opacity: 0.38; }
+.nerve-3 .figure-breathe { animation-duration: 1s; }
+.nerve-3 .figure-head { animation: head-shake 0.28s linear infinite; }
+.nerve-3 .figure-lids { animation-duration: 1.1s; }
+.nerve-3 .figure-pupils { animation-duration: 0.8s; }
+.nerve-3 .figure-hands { animation: fidget 0.32s ease-in-out infinite; }
+.nerve-3 .room-lamp { animation-duration: 2.2s; }
+
+/* ---------- Briefing ---------- */
+
+.briefing {
+  margin: auto;
+  width: min(44rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  color: var(--foreground);
+  background: rgb(14 15 25 / 0.97);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 30px 80px -10px #000, 0 0 60px -14px rgb(255 180 84 / 0.7);
+  animation: rise-in 0.5s cubic-bezier(0.2, 0.9, 0.25, 1.1) both;
+}
+.briefing::backdrop {
+  background: rgb(3 4 10 / 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.briefing-steps {
+  display: grid;
+  gap: 0.65rem;
+  padding-left: 1.5rem;
+  list-style: decimal;
+  line-height: 1.5;
+}
+.briefing-steps li::marker {
+  color: var(--accent);
+  font-family: var(--font-sign), serif;
+}
+
+.briefing-link {
+  min-height: 44px;
+  padding-inline: 0.75rem;
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  border-radius: 8px;
+}
+.briefing-link:hover { background: rgb(255 180 84 / 0.14); }
+
 /* ---------- Accusation and verdict ---------- */
 
 .suspect-choice {
@@ -488,6 +667,42 @@ body {
 
 /* ---------- Motion ---------- */
 
+@keyframes fade-in { from { opacity: 0; } }
+@keyframes door-left { to { transform: translateX(-102%); } }
+@keyframes door-right { to { transform: translateX(102%); } }
+@keyframes figure-enter { from { opacity: 0; transform: translateY(46px); } }
+@keyframes breathe { 50% { transform: translateY(-3px) scale(1.012); } }
+@keyframes head-idle {
+  0%, 100% { transform: rotate(0); }
+  30% { transform: rotate(-2deg); }
+  70% { transform: rotate(2deg); }
+}
+@keyframes head-shake {
+  25% { transform: translate(-1.6px, 0.6px) rotate(-1deg); }
+  75% { transform: translate(1.6px, -0.6px) rotate(1deg); }
+}
+@keyframes blink {
+  0%, 94%, 100% { transform: scaleY(0); }
+  97% { transform: scaleY(1); }
+}
+@keyframes glance {
+  0%, 40%, 100% { transform: translateX(0); }
+  50%, 65% { transform: translateX(5px); }
+  75%, 90% { transform: translateX(-5px); }
+}
+@keyframes sweat {
+  0% { opacity: 0; transform: translateY(-4px); }
+  20% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(44px); }
+}
+@keyframes fidget {
+  25% { transform: translateX(-3px) rotate(-0.5deg); }
+  75% { transform: translateX(3px) rotate(0.5deg); }
+}
+@keyframes lamp-swing {
+  from { transform: rotate(-1.4deg); }
+  to { transform: rotate(1.4deg); }
+}
 @keyframes twinkle { 50% { opacity: 0.25; } }
 @keyframes window-glow { 0%, 60% { opacity: 1; } 61%, 100% { opacity: 0.12; } }
 @keyframes bulb-flicker {
@@ -553,4 +768,5 @@ body {
     transition: none !important;
   }
   .steam, .mote { opacity: 0.4; }
+  .room-door { display: none; }
 }

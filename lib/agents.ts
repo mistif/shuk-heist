@@ -8,12 +8,17 @@ import { makeSearchTool } from "./tools";
 import { SuspectReply } from "./validate";
 
 const MODEL = "gpt-5.4-mini";
+// Caps each reply's length and each run's steps, so nobody can use an agent for long jobs.
+const MAX_REPLY_TOKENS = 1000;
+export const AGENT_RUN_LIMITS = { recursionLimit: 10 };
+
+const makeModel = () => new ChatOpenAI({ model: MODEL, maxTokens: MAX_REPLY_TOKENS });
 
 // An instance, not an "openai:..." string: the string loads the provider through a
 // dynamic import that Next's bundler can't resolve.
 function makeAssistant() {
   return createAgent({
-    model: new ChatOpenAI({ model: MODEL }),
+    model: makeModel(),
     tools: [makeSearchTool("detective")],
     systemPrompt: ASSISTANT_PROMPT,
   });
@@ -21,7 +26,7 @@ function makeAssistant() {
 
 function makeSuspect(id: SuspectId) {
   return createAgent({
-    model: new ChatOpenAI({ model: MODEL }),
+    model: makeModel(),
     tools: [makeSearchTool(id)],
     systemPrompt: suspectPrompt(id),
     responseFormat: SuspectReply,
