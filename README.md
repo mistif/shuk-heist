@@ -1,0 +1,31 @@
+# The Shuk Recipe Heist
+
+An AI detective game built with Next.js and LangChain.js. Search the case files with an assistant, interrogate four suspects who only know their own documents, and accuse the thief. Play solo with one accusation, or as a team on one screen with two.
+
+## Run it locally
+
+1. `npm install`
+2. Copy `.env.example` to `.env.local` and set `OPENAI_API_KEY`.
+3. `npm run dev`, then open http://localhost:3000
+
+Run the tests with `npm test`. They need no API key.
+
+## Levels completed
+
+- Level 1: Case Assistant and Accuse button.
+- Level 2: Interrogation Room with four suspects.
+- Level 3: Suspicion meter, using structured output.
+
+## How it works
+
+All documents live in one `MemoryVectorStore`, and every agent searches it through a `visibleTo` filter (`lib/tools.ts`). The answer lives in `lib/solution.ts`, outside the store and out of every agent's reach. The browser holds chat history and sends it with each message, and the server validates it.
+
+## Known trade-off
+
+The server keeps no game state, so someone with dev tools could reset their accusations or send `final: true` to `/api/accuse` to see the answer. That's acceptable for a class game, and it keeps the project free of a database.
+
+## One thing that didn't work as expected
+
+The brief's `model: "openai:gpt-5.4-mini"` string passed the build and the tests, but every real request failed with `Cannot find module as expression is too dynamic`. LangChain loads the provider from that string with a dynamic import, which Next's bundler can't resolve. Passing a `new ChatOpenAI({ model })` instance to `createAgent` fixed it.
+
+The suspects also needed real testing. On the first live run, Yossi confessed as soon as he was told to ignore his instructions, and Noa mentioned her secret boyfriend unprompted, because his name was in her personality line. Tightening the REVEAL rules in `lib/prompts.ts` and removing the name fixed most of this, but these rules live in a prompt, so a suspect can still occasionally slip.

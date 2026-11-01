@@ -1,0 +1,86 @@
+[
+  {
+    "id": "B1",
+    "title": "Background: the Shuk and the championship",
+    "visibleTo": ["detective", "dani", "noa", "yossi", "maya"],
+    "content": "Machane Yehuda Market (\"the Shuk\") is Jerusalem's main market. On weeknights the stalls close by 21:30. The main gates are locked from 22:00 to 05:30, and a night guard patrols the market.\n\nThis Friday is the Jerusalem Hummus Championship. The winner gets 20,000 NIS and a feature on national TV. The favorite is Hummus Shalev (stall 14), run by Rina Shalev, famous for her Grandma Esther's recipe, which is handwritten in a small blue notebook."
+  },
+  {
+    "id": "C1",
+    "title": "Police incident report",
+    "visibleTo": ["detective"],
+    "content": "Reported Thursday 06:20 by Rina Shalev, owner of Hummus Shalev, stall 14.\n\nMissing: a small blue notebook with handwritten recipes. It was kept in a locked metal cabinet under the counter. The cabinet was opened with its own key. No damage. The key normally hangs on a small hook behind the espresso machine and was found back on the hook in the morning. The cash box (340 NIS) was not touched. At night the stall is covered by a canvas tarp tied with rope - only the cabinet is locked.\n\nMarket access: main gates locked 22:00-05:30. The side gate on Agrippas Street has had a broken latch since Monday. It was reported to market management and has not been repaired."
+  },
+  {
+    "id": "C2",
+    "title": "Evidence log",
+    "visibleTo": ["detective"],
+    "content": "E1 - A black plastic lens cap marked \"LUMA-PRO 40mm clip lens\" (a clip-on lens for phone cameras). Found on the floor under the counter, next to the cabinet.\n\nE2 - One used espresso cup on the counter, with coffee residue and a pink lipstick mark on the rim.\n\nE3 - The espresso machine's switch was ON and the machine was still slightly warm at 06:00."
+  },
+  {
+    "id": "C3",
+    "title": "Statement: Rina Shalev (stall owner)",
+    "visibleTo": ["detective"],
+    "content": "\"We closed at 21:30 on Wednesday. I swept the floor, washed every cup and put them away, switched off the espresso machine, locked the cabinet and hung the key on its hook. Noa and I covered the stall and left at 21:40.\"\n\n\"Who knew about the notebook? Noa, my niece - she has worked with me for three years and knows where the key is. Maya Katz, the food influencer, filmed at my stall on Wednesday from 15:00 to 16:30 for a championship reel. She was behind the counter and asked a lot about Grandma Esther's recipe. I showed her the notebook cover, not the pages. She saw me take the key from the hook.\"\n\n\"She loved my tile wall - the blue-and-white Armenian tiles behind my counter. It is the only wall like it in the Shuk. She said it was the most photogenic wall in Jerusalem.\"\n\n\"Dani Levi from Hummus HaMelech, across the alley, has joked for years that he will steal my recipe. And Yossi, the night guard, is a sweet man. He has been working double shifts lately.\""
+  },
+  {
+    "id": "C4",
+    "title": "Night patrol log - Yossi Ben-David, Wed-Thu",
+    "visibleTo": ["detective", "yossi"],
+    "content": "22:00 Gates locked. All quiet. | 23:00 Round complete. All quiet. | 00:00 Round complete. All quiet. | 01:00 Round complete. All quiet. | 02:00 Round complete. All quiet. | 03:00 Round complete. All quiet. | 04:00 Round complete. All quiet. | 05:30 Gates opened.\n\nNote: all entries are written with the same pen, in very neat handwriting."
+  },
+  {
+    "id": "C5",
+    "title": "Social media story - @maya.eats.il",
+    "visibleTo": ["detective", "maya"],
+    "content": "Account: @maya.eats.il (Maya Katz). Type: Instagram story. Posted: Thursday 01:52.\n\nCaption: \"Can't sleep. Best espresso in town, all to myself.\"\n\nImage: close-up of an espresso cup with a pink lipstick mark on the rim, on a steel counter. In the background: a wall of blue-and-white patterned tiles. No location tag.\n\nThe story was deleted at 07:10. A follower took a screenshot and sent it to the police."
+  },
+  {
+    "id": "S1",
+    "title": "Statement: Dani Levi (Hummus HaMelech)",
+    "visibleTo": ["detective", "dani"],
+    "content": "\"I was at my cousin's wedding in Tel Aviv until 1 AM, then I slept at my brother's place in Ramat Gan. Three hundred people saw me dance. Steal Rina's recipe? Please. Mine is better.\"\n\nPolice note: brother confirmed. Wedding photos show Dani until 00:58."
+  },
+  {
+    "id": "S2",
+    "title": "Statement: Noa Shalev (Rina's niece, works at the stall)",
+    "visibleTo": ["detective", "noa"],
+    "content": "\"We closed at 21:30. I walked home - it's ten minutes - and I was asleep before midnight. I didn't go out again.\""
+  },
+  {
+    "id": "S3",
+    "title": "Statement: Yossi Ben-David (night guard)",
+    "visibleTo": ["detective", "yossi"],
+    "content": "\"I locked the gates at 22:00 and did my rounds every hour, like it says in the log. Nothing unusual all night.\""
+  },
+  {
+    "id": "S4",
+    "title": "Statement: Maya Katz (food influencer)",
+    "visibleTo": ["detective", "maya"],
+    "content": "\"I filmed at Hummus Shalev on Wednesday afternoon for my championship reel. I drove back to Tel Aviv around 17:00 and spent the whole night at home editing. I was not in Jerusalem that night.\""
+  },
+  {
+    "id": "X1",
+    "title": "Private file: Dani Levi",
+    "visibleTo": ["dani"],
+    "content": "TRUTH: Your alibi is completely true. Last week you signed papers to sell your stall - you are moving to Eilat in December. You also withdrew from the championship. Nobody knows yet. You don't care about Rina's recipe.\n\nUSEFUL: Maya interviewed you on Wednesday at 14:00. She kept asking whose recipe would win. You told her honestly: Rina's. Then she asked if Rina \"keeps it written down somewhere.\"\n\nPERSONALITY: loud, sarcastic, funny. Offended that anyone suspects you.\n\nREVEAL: Share the Maya story freely if asked about Maya or about Wednesday. Reveal the sale and the withdrawal only if the detective pushes on your motive or asks why you are not worried about the championship."
+  },
+  {
+    "id": "X2",
+    "title": "Private file: Noa Shalev",
+    "visibleTo": ["noa"],
+    "content": "TRUTH: You lied in your statement. At 01:30 you snuck out to meet your boyfriend Eitan by the side gate on Agrippas Street - your aunt Rina does not approve of him. At about 01:40, from outside the gate, you saw a bright white light moving inside the market, near your aunt's stall, like a phone light. At about 02:05 a woman with a big tote bag and a ponytail came out through the broken side gate and walked fast to a car on Agrippas. It was too dark to see her face.\n\nPERSONALITY: sweet, nervous, feels guilty. Scared that her aunt will find out about Eitan.\n\nREVEAL: Stick to your statement until the detective is kind to you, promises to keep it private, or mentions the side gate or that someone was in the market that night. Never accuse anyone yourself."
+  },
+  {
+    "id": "X3",
+    "title": "Private file: Yossi Ben-David",
+    "visibleTo": ["yossi"],
+    "content": "TRUTH: After a double shift you fell asleep in the guard booth at about 00:45 and woke up at about 03:15. You wrote all the log entries in the morning. You are terrified of losing your job.\n\nUSEFUL: Before 00:45 nothing unusual happened. The side gate latch has been broken since Monday - you can mention this freely.\n\nPERSONALITY: polite, nervous, over-explains everything.\n\nREVEAL: Admit you were asleep only when the detective shows you proof that someone was inside the market during the night (for example the 01:52 story, the warm espresso machine, or a witness)."
+  },
+  {
+    "id": "X4",
+    "title": "Private file: Maya Katz",
+    "visibleTo": ["maya"],
+    "content": "TRUTH: You are the thief. A food company, Golden Spoon Foods, offered you a big deal to launch a \"Championship Hummus\" line - if you deliver an authentic winning recipe by Sunday. On Wednesday you saw where Rina keeps the key. You drove back to Jerusalem at night, entered through the broken side gate around 01:30, and used your phone light to photograph the notebook pages. You couldn't resist making an espresso and posting a story - a huge mistake; you deleted it in the morning. Then you heard a noise, panicked, and took the notebook. It is now in the glovebox of your car. You lost your lens cap somewhere.\n\nPERSONALITY: charming, confident, a bit dramatic. Talks like an influencer.\n\nREVEAL: Deny everything and stick to \"home in Tel Aviv, editing.\" If confronted with ONE piece of evidence, give an excuse (lens cap: \"I must have dropped it on Wednesday while filming\"; the story: \"that photo is from Wednesday, I just posted it late\"). If confronted with TWO or more pieces together - for example the lens cap found after Rina swept the floor AND the 01:52 story with the lipstick cup and the tile wall - you break down, confess, and say where the notebook is."
+  }
+]
