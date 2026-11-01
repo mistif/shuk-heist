@@ -33,18 +33,24 @@ export default function AccusePanel({
   }
 
   return (
-    <section className="rounded-lg border border-line bg-panel p-3">
-      <h2 className="font-semibold">Make an accusation</h2>
-      <p className="text-sm text-muted">Accusations left: {accusationsLeft}</p>
-      {lastWrong && <p className="mt-1 text-sm text-danger">Not them. One accusation left.</p>}
+    <section className="glass p-4">
+      <h2 className="sign-text text-lg">Make an accusation</h2>
+      <p className="typewriter text-sm text-muted">Accusations left: {accusationsLeft}</p>
+      {lastWrong && (
+        <p role="status" className="shake-in mt-1 text-sm font-semibold text-danger">
+          Not them. One accusation left.
+        </p>
+      )}
       <fieldset className="mt-2 flex flex-col gap-1">
         <legend className="sr-only">Who took the notebook?</legend>
         {SUSPECTS.map((s) => (
-          <label key={s.id} className={accused.includes(s.id) ? "text-muted line-through" : ""}>
+          <label
+            key={s.id}
+            className={`suspect-choice ${accused.includes(s.id) ? "text-muted line-through" : ""}`}
+          >
             <input
               type="radio"
               name="accused"
-              className="mr-2"
               disabled={accused.includes(s.id)}
               checked={choice === s.id}
               onChange={() => setChoice(s.id)}
@@ -61,7 +67,7 @@ export default function AccusePanel({
       <button
         onClick={confirm}
         disabled={!choice || pending}
-        className="mt-3 w-full rounded bg-danger px-4 py-2 font-semibold text-background disabled:opacity-50"
+        className="gel-button danger-button mt-3 w-full px-4 py-2 text-lg"
       >
         {pending ? "Checking..." : "Accuse"}
       </button>

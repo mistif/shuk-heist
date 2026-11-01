@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Alfa_Slab_One, Geist, Special_Elite } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -7,8 +7,17 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Heavy slab for painted stall signs.
+const signFont = Alfa_Slab_One({
+  variable: "--font-sign",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+// Police typewriter for anything that belongs in the case file.
+const typewriterFont = Special_Elite({
+  variable: "--font-typewriter",
+  weight: "400",
   subsets: ["latin"],
 });
 
@@ -21,7 +30,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${signFont.variable} ${typewriterFont.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

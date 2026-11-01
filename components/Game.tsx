@@ -82,22 +82,28 @@ export default function Game() {
   }
 
   return (
-    <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-4 p-4">
-      <header className="flex flex-wrap items-baseline justify-between gap-2">
-        <h1 className="text-2xl font-bold">The Shuk Recipe Heist</h1>
-        <p className="text-sm text-muted">
+    <main className="stage mx-auto flex w-full max-w-[86rem] flex-1 flex-col gap-3 px-4 py-4">
+      <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+        <h1 className="neon-title text-[clamp(1.5rem,4vw,2.25rem)]">The Shuk Recipe Heist</h1>
+        <p className="typewriter text-muted">
           {game.players === 1 ? "You vs. the thief" : "Team vs. the thief"}
         </p>
       </header>
 
-      <div className="grid gap-4 md:grid-cols-[1fr_20rem]">
-        <div className="flex min-w-0">
+      <div className="board">
+        <div className="board-chat">
           {/* All panels stay mounted so switching chats keeps each draft and pending reply. */}
           {CHATS.map((chat) => (
-            <div key={chat} className={chat === openChat ? "flex min-w-0 flex-1" : "hidden"}>
+            <div key={chat} className={chat === openChat ? "flex min-w-0" : "hidden"}>
               <ChatPanel
                 title={chatTitle(chat)}
+                speaker={chat === "assistant" ? "Case Assistant" : suspectName(chat)}
                 placeholder={chat === "assistant" ? "Ask about the case files" : "Question this suspect"}
+                emptyHint={
+                  chat === "assistant"
+                    ? "The case files are open. Ask what the police found."
+                    : `${suspectName(chat)} is waiting. Ask your first question.`
+                }
                 messages={game.chats[chat]}
                 active={chat === openChat}
                 onSend={(text) => send(chat, text)}
@@ -105,36 +111,39 @@ export default function Game() {
             </div>
           ))}
         </div>
-        <aside className="flex flex-col gap-3">
+        <nav aria-label="Who to talk to" className="board-people people-list">
           <button
             onClick={() => setOpenChat("assistant")}
             aria-pressed={openChat === "assistant"}
-            className={`rounded-lg border p-3 text-left font-semibold ${
-              openChat === "assistant" ? "border-accent bg-panel" : "border-line"
-            }`}
+            className="person-card"
           >
-            Case Assistant
+            <span className="flex items-center gap-2">
+              <span className="monogram" aria-hidden="true">
+                ?
+              </span>
+              <span className="font-semibold leading-tight">Case Assistant</span>
+            </span>
           </button>
-          <div className="grid grid-cols-2 gap-2 md:grid-cols-1">
-            {SUSPECTS.map((s) => (
-              <SuspectCard
-                key={s.id}
-                name={s.name}
-                role={s.role}
-                nervousness={game.nervousness[s.id]}
-                selected={openChat === s.id}
-                accused={game.accused.includes(s.id)}
-                onSelect={() => setOpenChat(s.id)}
-              />
-            ))}
-          </div>
+          {SUSPECTS.map((s) => (
+            <SuspectCard
+              key={s.id}
+              name={s.name}
+              role={s.role}
+              nervousness={game.nervousness[s.id]}
+              selected={openChat === s.id}
+              accused={game.accused.includes(s.id)}
+              onSelect={() => setOpenChat(s.id)}
+            />
+          ))}
+        </nav>
+        <div className="board-accuse">
           <AccusePanel
             accused={game.accused}
             accusationsLeft={game.accusationsLeft}
             lastWrong={game.accused.length > 0}
             onAccuse={accuse}
           />
-        </aside>
+        </div>
       </div>
     </main>
   );

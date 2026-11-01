@@ -7,13 +7,17 @@ const INPUT_MAX = 2000;
 
 export default function ChatPanel({
   title,
+  speaker,
   placeholder,
+  emptyHint,
   messages,
   active,
   onSend,
 }: {
   title: string;
+  speaker: string;
   placeholder: string;
+  emptyHint: string;
   messages: ChatMessage[];
   active: boolean;
   onSend: (text: string) => Promise<void>;
@@ -46,43 +50,52 @@ export default function ChatPanel({
   }
 
   return (
-    <section className="flex min-h-96 flex-1 flex-col rounded-lg border border-line bg-panel">
-      <h2 className="border-b border-line p-3 font-semibold">{title}</h2>
+    <section className="glass rise-in chat-frame flex w-full flex-col">
+      <div className="tile-strip" />
+      <h2 className="chat-bar sign-text border-b border-line px-4 py-3 text-lg leading-tight md:text-xl">
+        {title}
+      </h2>
       <div
         ref={logRef}
         role="log"
         aria-live="polite"
-        className="flex max-h-[28rem] flex-1 flex-col gap-2 overflow-y-auto p-3"
+        className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-4"
       >
+        {messages.length === 0 && !pending && (
+          <p className="chat-note typewriter m-auto self-center text-center text-muted">{emptyHint}</p>
+        )}
         {messages.map((m, i) => (
-          <Bubble key={i} role={m.role} text={m.content} />
+          <Bubble key={i} role={m.role} text={m.content} speaker={speaker} />
         ))}
         {pending && (
           <>
-            <Bubble role="user" text={pending} />
-            <p className="text-sm text-muted">Waiting for a reply...</p>
+            <Bubble role="user" text={pending} speaker={speaker} />
+            <p className="chat-note typewriter flex items-center text-sm text-muted">
+              {speaker} is answering
+              <span className="dots" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+            </p>
           </>
         )}
       </div>
       {failed && (
-        <p role="alert" className="px-3 text-sm text-danger">
+        <p role="alert" className="chat-bar px-4 py-1 text-sm text-danger">
           Lost contact, try again.
         </p>
       )}
-      <form onSubmit={submit} className="flex gap-2 border-t border-line p-3">
+      <form onSubmit={submit} className="chat-bar flex gap-2 rounded-b-[13px] border-t border-line p-3">
         <input
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder={placeholder}
           aria-label={placeholder}
           maxLength={INPUT_MAX}
-          className="min-w-0 flex-1 rounded border border-line bg-background px-3 py-2"
+          className="chat-input min-w-0 flex-1 px-3 py-2"
         />
-        <button
-          type="submit"
-          disabled={!!pending || !draft.trim()}
-          className="rounded bg-accent px-4 py-2 font-semibold text-accent-text disabled:opacity-50"
-        >
+        <button type="submit" disabled={!!pending || !draft.trim()} className="gel-button px-5 py-2">
           Send
         </button>
       </form>
@@ -90,15 +103,29 @@ export default function ChatPanel({
   );
 }
 
-function Bubble({ role, text }: { role: ChatMessage["role"]; text: string }) {
+function Bubble({
+  role,
+  text,
+  speaker,
+}: {
+  role: ChatMessage["role"];
+  text: string;
+  speaker: string;
+}) {
   const mine = role === "user";
   return (
-    <p
-      className={`max-w-[85%] whitespace-pre-wrap rounded-lg px-3 py-2 ${
-        mine ? "self-end bg-accent text-accent-text" : "self-start border border-line"
-      }`}
-    >
-      {text}
-    </p>
+    <div className={`bubble ${mine ? "bubble-me" : "bubble-them"}`}>
+      <span className="bubble-label typewriter">{mine ? "Detective" : speaker}</span>
+      {/* Document citations like [C2] become evidence tags. */}
+      {text.split(/(\[[BCSX]\d\])/).map((part, i) =>
+        /^\[[BCSX]\d\]$/.test(part) ? (
+          <span key={i} className="cite">
+            {part}
+          </span>
+        ) : (
+          part
+        ),
+      )}
+    </div>
   );
 }
