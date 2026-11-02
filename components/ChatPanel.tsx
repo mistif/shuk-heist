@@ -12,7 +12,7 @@ const DOCUMENT_NAMES: Record<string, string> = {
   "[C2]": "Evidence log",
   "[C3]": "Statement from Rina Shalev",
   "[C4]": "Night patrol log",
-  "[C5]": "Social media story",
+  "[C5]": "Digital evidence",
   "[S1]": "Statement from Dani Levi",
   "[S2]": "Statement from Noa Shalev",
   "[S3]": "Statement from Yossi Ben-David",

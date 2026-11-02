@@ -2,7 +2,8 @@ import { describe, expect, it } from "vitest";
 import { AccuseRequest, ChatRequest, MESSAGES_MAX, parseBody, USER_MESSAGE_MAX } from "@/lib/validate";
 
 const user = (content = "hi") => ({ role: "user", content });
-const parse = (messages: unknown) => ChatRequest.safeParse({ messages });
+const caseId = "case-0001";
+const parse = (messages: unknown) => ChatRequest.safeParse({ caseId, messages });
 
 describe("ChatRequest", () => {
   it("accepts a normal conversation", () => {
@@ -29,13 +30,20 @@ describe("ChatRequest", () => {
     expect(parse([user(), { role: "assistant", content: "x" }]).success).toBe(false);
     expect(parse([user("   ")]).success).toBe(false);
   });
+
+  it("requires a case ID of a sensible length", () => {
+    expect(ChatRequest.safeParse({ messages: [user()] }).success).toBe(false);
+    expect(ChatRequest.safeParse({ caseId: "x", messages: [user()] }).success).toBe(false);
+    expect(ChatRequest.safeParse({ caseId: "x".repeat(65), messages: [user()] }).success).toBe(false);
+  });
 });
 
 describe("AccuseRequest", () => {
   it("accepts known suspects only", () => {
-    expect(AccuseRequest.safeParse({ suspect: "maya", final: false }).success).toBe(true);
-    expect(AccuseRequest.safeParse({ suspect: "rina", final: false }).success).toBe(false);
-    expect(AccuseRequest.safeParse({ suspect: "maya" }).success).toBe(false);
+    expect(AccuseRequest.safeParse({ caseId, suspect: "maya", final: false }).success).toBe(true);
+    expect(AccuseRequest.safeParse({ caseId, suspect: "rina", final: false }).success).toBe(false);
+    expect(AccuseRequest.safeParse({ caseId, suspect: "maya" }).success).toBe(false);
+    expect(AccuseRequest.safeParse({ suspect: "maya", final: false }).success).toBe(false);
   });
 });
 

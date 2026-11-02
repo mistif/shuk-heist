@@ -12,25 +12,26 @@ export default function StartScreen({
 
   return (
     <main className="stage flex flex-1 items-center px-4 py-8 md:px-[6vw]">
-      <div className="w-full max-w-xl">
-        <h1 className="neon-title rise-in text-[clamp(2.75rem,10vw,5.75rem)]">
+      <div className="w-full max-w-2xl">
+        <p className="kicker rise-in">Machane Yehuda Market, Jerusalem. Thursday, 06:00</p>
+        <h1 className="neon-title rise-in mt-3 text-[clamp(3rem,10vw,6.25rem)]">
           The Shuk Recipe Heist
         </h1>
         <div className="glass rise-in mt-7" style={{ animationDelay: "0.2s" }}>
           <div className="tile-strip" />
           <div className="flex flex-col gap-4 p-5">
-            <p className="typewriter text-lg leading-relaxed">
-              It is Thursday, 6:00 AM, in Machane Yehuda Market. Rina Shalev opens her hummus
-              stall and finds that her grandmother&apos;s secret recipe, a small blue notebook, is
-              gone. Tomorrow is the Jerusalem Hummus Championship.
+            <p className="leading-relaxed">
+              Rina Shalev opens her hummus stall and finds that her grandmother&apos;s secret
+              recipe, a small blue notebook, is gone. Tomorrow is the Jerusalem Hummus Championship.
             </p>
-            <p className="typewriter text-lg text-accent">
-              Four suspects. A handful of documents. Somebody is lying.
+            <p className="font-semibold text-accent">
+              Four suspects, and any of them could be the thief. Each new case picks one at random,
+              with its own evidence.
             </p>
 
             <fieldset>
               <legend className="mb-2 font-semibold">How well do they lie?</legend>
-              <div className="flex flex-col gap-2">
+              <div className="grid gap-2 md:grid-cols-3">
                 {DIFFICULTIES.map((d) => (
                   <label key={d.id} className="level-choice">
                     <input

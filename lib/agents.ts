@@ -17,26 +17,26 @@ const makeModel = () => new ChatOpenAI({ model: MODEL, maxTokens: MAX_REPLY_TOKE
 
 // An instance, not an "openai:..." string: the string loads the provider through a
 // dynamic import that Next's bundler can't resolve.
-function makeAssistant() {
+function makeAssistant(thief: SuspectId) {
   return createAgent({
     model: makeModel(),
-    tools: [makeSearchTool("detective")],
+    tools: [makeSearchTool("detective", thief)],
     systemPrompt: ASSISTANT_PROMPT,
   });
 }
 
-function makeSuspect(id: SuspectId, difficulty: DifficultyId, claimNote?: string) {
+function makeSuspect(id: SuspectId, thief: SuspectId, difficulty: DifficultyId, claimNote?: string) {
   const prompt = suspectPrompt(id, difficulty);
   return createAgent({
     model: makeModel(),
-    tools: [makeSearchTool(id, getStore, LEVEL_REMINDERS[difficulty])],
+    tools: [makeSearchTool(id, thief, getStore, LEVEL_REMINDERS[difficulty])],
     systemPrompt: claimNote ? `${prompt}\n\n${claimNote}` : prompt,
     responseFormat: SuspectReply,
   });
 }
 
 // Created on first use so that importing this file during `next build` needs no API key.
-let assistant: ReturnType<typeof makeAssistant> | null = null;
+const assistants = new Map<SuspectId, ReturnType<typeof makeAssistant>>();
 const suspects = new Map<string, ReturnType<typeof makeSuspect>>();
 
 // Routes call this first, so a failed store build returns a 500 instead of reaching the model.
@@ -44,19 +44,28 @@ export async function prepareSearch() {
   await getStore();
 }
 
-export function getAssistant() {
-  assistant ??= makeAssistant();
-  return assistant;
+export function getAssistant(thief: SuspectId) {
+  let agent = assistants.get(thief);
+  if (!agent) {
+    agent = makeAssistant(thief);
+    assistants.set(thief, agent);
+  }
+  return agent;
 }
 
-export function getSuspect(id: SuspectId, difficulty: DifficultyId, claimNote?: string) {
+export function getSuspect(
+  id: SuspectId,
+  thief: SuspectId,
+  difficulty: DifficultyId,
+  claimNote?: string,
+) {
   // A claim note changes on every message, so that agent is built fresh and not cached.
-  if (claimNote) return makeSuspect(id, difficulty, claimNote);
+  if (claimNote) return makeSuspect(id, thief, difficulty, claimNote);
 
-  const key = `${id}:${difficulty}`;
+  const key = `${id}:${thief}:${difficulty}`;
   let agent = suspects.get(key);
   if (!agent) {
-    agent = makeSuspect(id, difficulty);
+    agent = makeSuspect(id, thief, difficulty);
     suspects.set(key, agent);
   }
   return agent;

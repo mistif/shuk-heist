@@ -1,6 +1,6 @@
 # The Shuk Recipe Heist
 
-An AI detective game built with Next.js and LangChain.js. Search the case files with an assistant, interrogate four suspects who only know their own documents, and accuse the thief. Play solo with one accusation, or as a team on one screen with two.
+An AI detective game built with Next.js and LangChain.js. Search the case files with an assistant, interrogate four suspects who only know their own documents, and accuse the thief. Any of the four can be guilty: each new case picks one at random, with its own evidence. Play solo with one accusation, or as a team on one screen with two.
 
 ## Run it locally
 
@@ -18,7 +18,11 @@ Run the tests with `npm test`. They need no API key.
 
 ## How it works
 
-All documents live in one `MemoryVectorStore`, and every agent searches it through a `visibleTo` filter (`lib/tools.ts`). The answer lives in `lib/solution.ts`, outside the store and out of every agent's reach. The browser holds chat history and sends it with each message, and the server validates it.
+All documents live in one `MemoryVectorStore`, and every agent searches it through a filter on `visibleTo` and on which thief the document belongs to (`lib/tools.ts`). A document with no `thieves` list is true in every case. The explanations live in `lib/solution.ts`, outside the store and out of every agent's reach. The browser holds chat history and sends it with each message, and the server validates it.
+
+## How the thief is picked
+
+The browser makes a random case ID when a game starts. `thiefFor` in `lib/solution.ts` turns that ID into a suspect with an HMAC keyed on `CASE_SECRET`, or on `OPENAI_API_KEY` if that isn't set. The server stores nothing and always gets the same thief for a case, and the browser can't work it out because it never sees the secret.
 
 ## Difficulty
 
@@ -36,7 +40,7 @@ Pick how well the suspects lie on the start screen:
 
 ## Known trade-off
 
-The server keeps no game state, so someone with dev tools could reset their accusations or send `final: true` to `/api/accuse` to see the answer. That's acceptable for a class game, and it keeps the project free of a database.
+The server keeps no game state, so someone with dev tools could reset their accusations or send `final: true` to `/api/accuse` to see that case's answer. That's acceptable for a class game, and it keeps the project free of a database.
 
 ## One thing that didn't work as expected
 

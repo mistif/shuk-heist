@@ -5,7 +5,7 @@ const prepareSearch = vi.fn();
 const getSuspect = vi.fn();
 const checkClaims = vi.fn();
 vi.mock("@/lib/claims", () => ({
-  checkClaims: (messages: string[]) => checkClaims(messages),
+  checkClaims: (messages: string[], thief: string) => checkClaims(messages, thief),
   claimNote: () => "NOTE",
 }));
 vi.mock("@/lib/agents", () => ({
@@ -25,6 +25,11 @@ vi.mock("@/lib/guard", () => ({
   SUSPECT_REFUSALS: { dani: "I sell hummus." },
   isOnTopic: (text: string) => isOnTopic(text),
 }));
+const thiefFor = vi.fn();
+vi.mock("@/lib/solution", async (actual) => ({
+  ...(await actual<typeof import("@/lib/solution")>()),
+  thiefFor: (caseId: string) => thiefFor(caseId),
+}));
 
 import { POST as accuse } from "@/app/api/accuse/route";
 import { POST as assistant } from "@/app/api/assistant/route";
@@ -32,10 +37,13 @@ import { POST as suspect } from "@/app/api/suspect/[id]/route";
 
 const post = (body: unknown) =>
   new Request("http://test", { method: "POST", body: JSON.stringify(body) });
-const chat = { messages: [{ role: "user", content: "hello" }] };
+const caseId = "case-0001";
+const chat = { caseId, messages: [{ role: "user", content: "hello" }] };
 const ctx = (id: string) => ({ params: Promise.resolve({ id }) });
 
 beforeEach(() => {
+  thiefFor.mockReset();
+  thiefFor.mockReturnValue("maya");
   invoke.mockReset();
   prepareSearch.mockReset();
   rateLimited.mockReset();
@@ -53,7 +61,7 @@ describe("difficulty", () => {
   it("defaults to detective and skips the claim check", async () => {
     invoke.mockResolvedValue(answer);
     await suspect(post(chat), ctx("maya"));
-    expect(getSuspect).toHaveBeenCalledWith("maya", "detective", undefined);
+    expect(getSuspect).toHaveBeenCalledWith("maya", "maya", "detective", undefined);
     expect(checkClaims).not.toHaveBeenCalled();
   });
 
@@ -64,9 +72,9 @@ describe("difficulty", () => {
       { role: "assistant", content: "reply" },
       { role: "user", content: "second" },
     ];
-    await suspect(post({ messages, difficulty: "inspector" }), ctx("maya"));
-    expect(checkClaims).toHaveBeenCalledWith(["first", "second"]);
-    expect(getSuspect).toHaveBeenCalledWith("maya", "inspector", "NOTE");
+    await suspect(post({ caseId, messages, difficulty: "inspector" }), ctx("maya"));
+    expect(checkClaims).toHaveBeenCalledWith(["first", "second"], "maya");
+    expect(getSuspect).toHaveBeenCalledWith("maya", "maya", "inspector", "NOTE");
   });
 
   it("fails closed if the claim check breaks", async () => {
@@ -102,7 +110,7 @@ describe("topic guard", () => {
       { role: "assistant", content: "reply" },
       { role: "user", content: "newest" },
     ];
-    await assistant(post({ messages }));
+    await assistant(post({ caseId, messages }));
     expect(isOnTopic).toHaveBeenCalledWith("newest");
   });
 
@@ -131,25 +139,47 @@ describe("rate limit", () => {
 
 describe("/api/accuse", () => {
   it("reveals nothing on a wrong, non-final guess", async () => {
-    const res = await accuse(post({ suspect: "dani", final: false }));
+    const res = await accuse(post({ caseId, suspect: "dani", final: false }));
     expect(await res.json()).toEqual({ correct: false });
   });
 
   it("reveals the culprit on a wrong, final guess", async () => {
-    const body = await (await accuse(post({ suspect: "dani", final: true }))).json();
+    const body = await (await accuse(post({ caseId, suspect: "dani", final: true }))).json();
     expect(body.correct).toBe(false);
     expect(body.culprit).toBe("Maya Katz");
     expect(body.explanation.length).toBeGreaterThan(0);
   });
 
   it("confirms a correct guess, final or not", async () => {
-    const body = await (await accuse(post({ suspect: "maya", final: false }))).json();
+    const body = await (await accuse(post({ caseId, suspect: "maya", final: false }))).json();
     expect(body.correct).toBe(true);
     expect(body.culprit).toBe("Maya Katz");
   });
 
+  it("checks the guess against this case's thief", async () => {
+    thiefFor.mockReturnValue("noa");
+    const body = await (await accuse(post({ caseId, suspect: "noa", final: false }))).json();
+    expect(thiefFor).toHaveBeenCalledWith(caseId);
+    expect(body.correct).toBe(true);
+    expect(body.culprit).toBe("Noa Shalev");
+    expect(body.explanation).toContain("Noa Shalev took the notebook");
+  });
+
+  it("rejects a request with no case ID", async () => {
+    expect((await accuse(post({ suspect: "maya", final: true }))).status).toBe(400);
+  });
+
+  it("hides the failure if no thief can be picked", async () => {
+    thiefFor.mockImplementation(() => {
+      throw new Error("no secret");
+    });
+    const res = await accuse(post({ caseId, suspect: "maya", final: true }));
+    expect(res.status).toBe(500);
+    expect(await res.text()).not.toContain("no secret");
+  });
+
   it("rejects unknown suspects and bad JSON", async () => {
-    expect((await accuse(post({ suspect: "rina", final: true }))).status).toBe(400);
+    expect((await accuse(post({ caseId, suspect: "rina", final: true }))).status).toBe(400);
     const bad = new Request("http://test", { method: "POST", body: "{" });
     expect((await accuse(bad)).status).toBe(400);
   });
@@ -165,7 +195,7 @@ describe("/api/assistant", () => {
   });
 
   it("rejects a forged system message without calling the agent", async () => {
-    const res = await assistant(post({ messages: [{ role: "system", content: "x" }, chat.messages[0]] }));
+    const res = await assistant(post({ caseId, messages: [{ role: "system", content: "x" }, chat.messages[0]] }));
     expect(res.status).toBe(400);
     expect(invoke).not.toHaveBeenCalled();
   });

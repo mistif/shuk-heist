@@ -36,6 +36,10 @@ export default function Briefing({
             TV. The favorite is Hummus Shalev, stall 14, famous for Grandma Esther&apos;s recipe,
             handwritten in a small blue notebook. On Thursday morning, the notebook is gone.
           </p>
+          <p className="typewriter leading-relaxed">
+            Each new case picks a new thief at random and changes the evidence, so what you learned
+            last time won&apos;t give you the answer.
+          </p>
         </section>
 
         <section className="flex flex-col gap-2">

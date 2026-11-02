@@ -3,10 +3,18 @@ import { MemoryVectorStore } from "@langchain/classic/vectorstores/memory";
 import type { EmbeddingsInterface } from "@langchain/core/embeddings";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import caseFiles from "@/data/case.json";
+import { SUSPECT_IDS, type SuspectId } from "./suspects";
 
-const documents = caseFiles.map((f) => ({
+// A file with no "thieves" list is true in every version of the case.
+type CaseFile = (typeof caseFiles)[number] & { thieves?: string[] };
+const allFiles: CaseFile[] = caseFiles;
+
+export const filesFor = (thief: SuspectId) =>
+  allFiles.filter((f) => (f.thieves ?? SUSPECT_IDS).includes(thief));
+
+const documents = allFiles.map((f) => ({
   pageContent: f.content,
-  metadata: { id: f.id, title: f.title, visibleTo: f.visibleTo },
+  metadata: { id: f.id, title: f.title, visibleTo: f.visibleTo, thieves: f.thieves ?? SUSPECT_IDS },
 }));
 
 // Caches the promise, not the store: callers can never see a half-built store,

@@ -13,15 +13,37 @@
   },
   {
     "id": "C2",
+    "thieves": ["maya"],
     "title": "Evidence log",
     "visibleTo": ["detective"],
     "content": "E1 - A black plastic lens cap marked \"LUMA-PRO 40mm clip lens\" (a clip-on lens for phone cameras). Found on the floor under the counter, next to the cabinet.\n\nE2 - One used espresso cup on the counter, with coffee residue and a pink lipstick mark on the rim.\n\nE3 - The espresso machine's switch was ON and the machine was still slightly warm at 06:00."
   },
   {
+    "id": "C2",
+    "thieves": ["dani"],
+    "title": "Evidence log",
+    "visibleTo": ["detective"],
+    "content": "E1 - A white wedding boutonniere with a ribbon printed \"Ronen & Tali\". Found on the floor under the counter, next to the cabinet.\n\nE2 - One used espresso cup on the counter, with coffee residue and two crushed cardamom pods at the bottom.\n\nE3 - The espresso machine's switch was ON and the machine was still slightly warm at 06:00."
+  },
+  {
+    "id": "C2",
+    "thieves": ["noa"],
+    "title": "Evidence log",
+    "visibleTo": ["detective"],
+    "content": "E1 - A green hair tie with a small enamel lemon charm. Found on the floor under the counter, next to the cabinet.\n\nE2 - One used espresso cup on the counter, with coffee residue and a twist of lemon peel on the saucer.\n\nE3 - The espresso machine's switch was ON and the machine was still slightly warm at 06:00."
+  },
+  {
+    "id": "C2",
+    "thieves": ["yossi"],
+    "title": "Evidence log",
+    "visibleTo": ["detective"],
+    "content": "E1 - A brass uniform button stamped with the market security crest, a few threads still attached. Found on the floor under the counter, next to the cabinet.\n\nE2 - One used espresso cup on the counter, with a thick layer of undissolved sugar at the bottom.\n\nE3 - The espresso machine's switch was ON and the machine was still slightly warm at 06:00."
+  },
+  {
     "id": "C3",
     "title": "Statement: Rina Shalev (stall owner)",
     "visibleTo": ["detective"],
-    "content": "\"We closed at 21:30 on Wednesday. I swept the floor, washed every cup and put them away, switched off the espresso machine, locked the cabinet and hung the key on its hook. Noa and I covered the stall and left at 21:40.\"\n\n\"Who knew about the notebook? Noa, my niece - she has worked with me for three years and knows where the key is. Maya Katz, the food influencer, filmed at my stall on Wednesday from 15:00 to 16:30 for a championship reel. She was behind the counter and asked a lot about Grandma Esther's recipe. I showed her the notebook cover, not the pages. She saw me take the key from the hook.\"\n\n\"She loved my tile wall - the blue-and-white Armenian tiles behind my counter. It is the only wall like it in the Shuk. She said it was the most photogenic wall in Jerusalem.\"\n\n\"Dani Levi from Hummus HaMelech, across the alley, has joked for years that he will steal my recipe. And Yossi, the night guard, is a sweet man. He has been working double shifts lately.\""
+    "content": "\"We closed at 21:30 on Wednesday. I swept the floor, washed every cup and put them away, switched off the espresso machine, locked the cabinet and hung the key on its hook. Noa and I covered the stall and left at 21:40.\"\n\n\"Who knew about the notebook? Noa, my niece - she has worked with me for three years and knows where the key is. She wears the green staff hoodie, only she and I have one, and those lemon-charm hair ties I bought her. She takes her espresso with lemon peel, God knows why.\"\n\n\"Maya Katz, the food influencer, filmed at my stall on Wednesday from 15:00 to 16:30 for a championship reel, with a clip-on lens on her phone and her pink lipstick. She was behind the counter and asked a lot about Grandma Esther's recipe. I showed her the notebook cover, not the pages. She saw me take the key from the hook. She loved my tile wall - the blue-and-white Armenian tiles behind my counter. It is the only wall like it in the Shuk. She said it was the most photogenic wall in Jerusalem.\"\n\n\"Dani Levi from Hummus HaMelech, across the alley, has joked for years that he will steal my recipe. He can see my counter from his, and he carries a tin of cardamom for his coffee everywhere. And Yossi, the night guard, is a sweet man. He has been working double shifts lately. He drinks a coffee at my counter before each shift, with three sugars, so he has seen where the key hangs too.\""
   },
   {
     "id": "C4",
@@ -31,15 +53,45 @@
   },
   {
     "id": "C5",
+    "thieves": ["maya"],
     "title": "Social media story - @maya.eats.il",
     "visibleTo": ["detective", "maya"],
     "content": "Account: @maya.eats.il (Maya Katz). Type: Instagram story. Posted: Thursday 01:52.\n\nCaption: \"Can't sleep. Best espresso in town, all to myself.\"\n\nImage: close-up of an espresso cup with a pink lipstick mark on the rim, on a steel counter. In the background: a wall of blue-and-white patterned tiles. No location tag.\n\nThe story was deleted at 07:10. A follower took a screenshot and sent it to the police."
   },
   {
+    "id": "C5",
+    "thieves": ["dani"],
+    "title": "Parking app record - Agrippas Street",
+    "visibleTo": ["detective", "dani"],
+    "content": "Source: city parking app, requested by police for every car near the side gate that night.\n\nOne paid session on Agrippas Street, thirty meters from the broken side gate: Thursday 02:06 to 02:49. The car is registered to Dani Levi of Hummus HaMelech.\n\nNo other car was paid for on that block between 22:00 and 05:30."
+  },
+  {
+    "id": "C5",
+    "thieves": ["noa"],
+    "title": "Doorbell camera - apartment building near the Shuk",
+    "visibleTo": ["detective", "noa"],
+    "content": "Source: a neighbor's doorbell camera, collected by police canvassing the streets around the market. The building is a ten-minute walk from the Shuk, and Noa Shalev lives there.\n\nThursday 01:22: a woman in a green hoodie with \"Hummus Shalev\" on the back walks out of the building. Hood up, face not visible.\n\nThursday 02:31: the same figure walks back in, holding something flat and small against her chest."
+  },
+  {
+    "id": "C5",
+    "thieves": ["yossi"],
+    "title": "Anonymous email to a food company",
+    "visibleTo": ["detective", "yossi"],
+    "content": "Source: Golden Spoon Foods forwarded this to police on Thursday morning. It was sent at 01:52 on Thursday from a new, anonymous account.\n\nText: \"I have Grandma Esther's recipe from Hummus Shalev. 30,000 NIS and it's yours before the championship.\"\n\nAttached photo: a small blue notebook lying open on a wooden desk. At the edge of the frame: a navy sleeve with brass buttons, and a clipboard holding a sheet of very neat handwriting."
+  },
+  {
     "id": "S1",
+    "thieves": ["noa", "yossi", "maya"],
     "title": "Statement: Dani Levi (Hummus HaMelech)",
     "visibleTo": ["detective", "dani"],
     "content": "\"I was at my cousin's wedding in Tel Aviv until 1 AM, then I slept at my brother's place in Ramat Gan. Three hundred people saw me dance. Steal Rina's recipe? Please. Mine is better.\"\n\nPolice note: brother confirmed. Wedding photos show Dani until 00:58."
+  },
+  {
+    "id": "S1",
+    "thieves": ["dani"],
+    "title": "Statement: Dani Levi (Hummus HaMelech)",
+    "visibleTo": ["detective", "dani"],
+    "content": "\"I was at my cousin's wedding in Tel Aviv until 1 AM, then I slept at my brother's place in Ramat Gan. Three hundred people saw me dance. Steal Rina's recipe? Please. Mine is better.\"\n\nPolice note: wedding photos show Dani until 00:58, wearing a white boutonniere. It was the wedding of Ronen and Tali, held that same night. His brother went to bed at 23:00 and can only say that Dani was on his sofa at 07:00."
   },
   {
     "id": "S2",
@@ -55,32 +107,128 @@
   },
   {
     "id": "S4",
+    "thieves": ["dani", "noa", "yossi"],
     "title": "Statement: Maya Katz (food influencer)",
     "visibleTo": ["detective", "maya"],
-    "content": "\"I filmed at Hummus Shalev on Wednesday afternoon for my championship reel. I drove back to Tel Aviv around 17:00 and spent the whole night at home editing. I was not in Jerusalem that night.\""
+    "content": "\"I filmed at Hummus Shalev on Wednesday afternoon for my championship reel. I drove back to Tel Aviv around 17:00 and spent the whole night at home editing. I was not in Jerusalem that night.\"\n\nPolice note: her editing account shows steady activity from her home connection in Tel Aviv until 03:40."
+  },
+  {
+    "id": "S4",
+    "thieves": ["maya"],
+    "title": "Statement: Maya Katz (food influencer)",
+    "visibleTo": ["detective", "maya"],
+    "content": "\"I filmed at Hummus Shalev on Wednesday afternoon for my championship reel. I drove back to Tel Aviv around 17:00 and spent the whole night at home editing. I was not in Jerusalem that night.\"\n\nPolice note: she lives alone, and nobody can confirm this."
   },
   {
     "id": "X1",
+    "thieves": ["maya"],
     "title": "Private file: Dani Levi",
     "visibleTo": ["dani"],
     "content": "TRUTH: Your alibi is completely true. Last week you signed papers to sell your stall - you are moving to Eilat in December. You also withdrew from the championship. Nobody knows yet. You don't care about Rina's recipe.\n\nUSEFUL: Maya interviewed you on Wednesday at 14:00. She kept asking whose recipe would win. You told her honestly: Rina's. Then she asked if Rina \"keeps it written down somewhere.\"\n\nPERSONALITY: loud, sarcastic, funny. Offended that anyone suspects you.\n\nREVEAL: Share the Maya story freely if asked about Maya or about Wednesday. Reveal the sale and the withdrawal only if the detective pushes on your motive or asks why you are not worried about the championship."
   },
   {
+    "id": "X1",
+    "thieves": ["noa"],
+    "title": "Private file: Dani Levi",
+    "visibleTo": ["dani"],
+    "content": "TRUTH: Your alibi is completely true. Last week you signed papers to sell your stall - you are moving to Eilat in December. You also withdrew from the championship. Nobody knows yet. You don't care about Rina's recipe.\n\nUSEFUL: Last Sunday Noa asked you what a stall lease costs. She said her aunt would never hand over the recipe, and that three years of her life had earned her nothing.\n\nPERSONALITY: loud, sarcastic, funny. Offended that anyone suspects you.\n\nREVEAL: Share the Noa story freely if asked about Noa or about who wanted the recipe. Reveal the sale and the withdrawal only if the detective pushes on your motive or asks why you are not worried about the championship."
+  },
+  {
+    "id": "X1",
+    "thieves": ["yossi"],
+    "title": "Private file: Dani Levi",
+    "visibleTo": ["dani"],
+    "content": "TRUTH: Your alibi is completely true. Last week you signed papers to sell your stall - you are moving to Eilat in December. You also withdrew from the championship. Nobody knows yet. You don't care about Rina's recipe.\n\nUSEFUL: Yossi has asked you for a loan twice this month. The second time he said he owes 30,000 NIS and that double shifts won't ever cover it.\n\nPERSONALITY: loud, sarcastic, funny. Offended that anyone suspects you.\n\nREVEAL: Share the Yossi story freely if asked about Yossi or about who needed money. Reveal the sale and the withdrawal only if the detective pushes on your motive or asks why you are not worried about the championship."
+  },
+  {
+    "id": "X1",
+    "thieves": ["dani"],
+    "title": "Private file: Dani Levi",
+    "visibleTo": ["dani"],
+    "content": "TRUTH: You are the thief. Your stall is drowning in debt. Golden Spoon Foods promised to buy it for a fortune if you bring them a recipe that can win the championship. You left the wedding at about 1 AM, drove to Jerusalem, parked on Agrippas and paid with your app out of pure habit, then went through the broken side gate at about 02:10. You have watched Rina use that key from across the alley for years. You photographed the pages with your phone light, made an espresso with your own cardamom out of spite, then heard a noise, panicked and took the notebook. It is now inside a sack of chickpeas at your stall. Your brother was asleep and can't vouch for the night. You lost your boutonniere somewhere.\n\nPERSONALITY: loud, sarcastic, funny. Offended that anyone suspects you.\n\nREVEAL: Deny everything and stick to \"the wedding, then my brother's.\" If confronted with ONE piece of evidence, give an excuse (boutonniere: \"somebody is framing me, half of Tel Aviv had those flowers\"; parking: \"I lent my car to a friend\"; cardamom: \"everyone uses cardamom\"). If confronted with TWO or more pieces together - for example the boutonniere from that night's wedding found after Rina swept AND the 02:06 parking record - you break down, confess, and say where the notebook is."
+  },
+  {
     "id": "X2",
+    "thieves": ["maya"],
     "title": "Private file: Noa Shalev",
     "visibleTo": ["noa"],
     "content": "TRUTH: You lied in your statement. At 01:30 you snuck out to meet your boyfriend Eitan by the side gate on Agrippas Street - your aunt Rina does not approve of him. At about 01:40, from outside the gate, you saw a bright white light moving inside the market, near your aunt's stall, like a phone light. At about 02:05 a woman with a big tote bag and a ponytail came out through the broken side gate and walked fast to a car on Agrippas. It was too dark to see her face.\n\nPERSONALITY: sweet, nervous, feels guilty. Scared that her aunt will find out about Eitan.\n\nREVEAL: Stick to your statement until the detective is kind to you, promises to keep it private, or mentions the side gate or that someone was in the market that night. Never accuse anyone yourself."
   },
   {
+    "id": "X2",
+    "thieves": ["dani"],
+    "title": "Private file: Noa Shalev",
+    "visibleTo": ["noa"],
+    "content": "TRUTH: You lied in your statement. At 02:00 you snuck out to meet your boyfriend Eitan by the side gate on Agrippas Street - your aunt Rina does not approve of him. At about 02:15, from outside the gate, you saw a bright white light moving inside the market, near your aunt's stall, like a phone light. At about 02:45 a big man in a suit jacket came out through the broken side gate and walked fast to a car on Agrippas. It was too dark to see his face.\n\nPERSONALITY: sweet, nervous, feels guilty. Scared that her aunt will find out about Eitan.\n\nREVEAL: Stick to your statement until the detective is kind to you, promises to keep it private, or mentions the side gate or that someone was in the market that night. Never accuse anyone yourself."
+  },
+  {
+    "id": "X2",
+    "thieves": ["yossi"],
+    "title": "Private file: Noa Shalev",
+    "visibleTo": ["noa"],
+    "content": "TRUTH: You lied in your statement. At 01:30 you snuck out to meet your boyfriend Eitan by the side gate on Agrippas Street - your aunt Rina does not approve of him. At about 01:40, from outside the gate, you saw a strong yellow flashlight moving inside the market, near your aunt's stall. At about 02:00 a man in a dark jacket walked away from the stall, deeper into the market. Nobody came out through the gate the whole time you were there, and you left at 02:20. It was too dark to see his face.\n\nPERSONALITY: sweet, nervous, feels guilty. Scared that her aunt will find out about Eitan.\n\nREVEAL: Stick to your statement until the detective is kind to you, promises to keep it private, or mentions the side gate or that someone was in the market that night. Never accuse anyone yourself."
+  },
+  {
+    "id": "X2",
+    "thieves": ["noa"],
+    "title": "Private file: Noa Shalev",
+    "visibleTo": ["noa"],
+    "content": "TRUTH: You are the thief. Three years at that stall, and your aunt still won't teach you the recipe or promise you the business. Your boyfriend Eitan found a small stall you could lease together, if only you had a recipe that sells. He knows nothing about the theft. At 01:22 you left home in your staff hoodie, went through the broken side gate, took the key from its hook and photographed the pages. You made yourself an espresso with lemon peel out of habit, then heard a noise, panicked and took the notebook. It is now under your mattress. You lost a hair tie somewhere.\n\nPERSONALITY: sweet, nervous, feels guilty. Scared that her aunt will find out her secret.\n\nREVEAL: Deny everything and stick to \"asleep before midnight.\" If confronted with ONE piece of evidence, give an excuse (hair tie: \"I must have dropped it during the day\"; lemon peel: \"I always make one before closing\"; doorbell camera: \"anyone could wear a hoodie\"). If confronted with TWO or more pieces together - for example the hair tie found after Rina swept AND the doorbell camera showing the staff hoodie at 01:22 - you break down in tears, confess, and say where the notebook is."
+  },
+  {
     "id": "X3",
+    "thieves": ["maya"],
     "title": "Private file: Yossi Ben-David",
     "visibleTo": ["yossi"],
     "content": "TRUTH: After a double shift you fell asleep in the guard booth at about 00:45 and woke up at about 03:15. You wrote all the log entries in the morning. You are terrified of losing your job.\n\nUSEFUL: Before 00:45 nothing unusual happened. The side gate latch has been broken since Monday - you can mention this freely.\n\nPERSONALITY: polite, nervous, over-explains everything.\n\nREVEAL: Admit you were asleep only when the detective shows you proof that someone was inside the market during the night (for example the 01:52 story, the warm espresso machine, or a witness)."
   },
   {
+    "id": "X3",
+    "thieves": ["dani"],
+    "title": "Private file: Yossi Ben-David",
+    "visibleTo": ["yossi"],
+    "content": "TRUTH: After a double shift you fell asleep in the guard booth at about 00:45 and woke up at about 03:15. You wrote all the log entries in the morning. You are terrified of losing your job.\n\nUSEFUL: The side gate latch has been broken since Monday - you can mention this freely. When you woke at 03:15 you walked the alley and saw that the rope on the Hummus HaMelech tarp had been retied in a messy knot. It was neat when you locked up. You can mention this if asked what you noticed, but only after you have admitted you were asleep.\n\nPERSONALITY: polite, nervous, over-explains everything.\n\nREVEAL: Admit you were asleep only when the detective shows you proof that someone was inside the market during the night (for example the parking record, the warm espresso machine, or a witness)."
+  },
+  {
+    "id": "X3",
+    "thieves": ["noa"],
+    "title": "Private file: Yossi Ben-David",
+    "visibleTo": ["yossi"],
+    "content": "TRUTH: After a double shift you fell asleep in the guard booth at about 00:45 and woke up at about 03:15. You wrote all the log entries in the morning. You are terrified of losing your job.\n\nUSEFUL: The side gate latch has been broken since Monday - you can mention this freely. On Tuesday, Noa asked you whether the latch had been fixed yet, and whether anyone ever checks that gate at night. You thought she was worried about safety. You can mention this if asked about Noa or about who knew about the gate.\n\nPERSONALITY: polite, nervous, over-explains everything.\n\nREVEAL: Admit you were asleep only when the detective shows you proof that someone was inside the market during the night (for example the doorbell camera, the warm espresso machine, or a witness)."
+  },
+  {
+    "id": "X3",
+    "thieves": ["yossi"],
+    "title": "Private file: Yossi Ben-David",
+    "visibleTo": ["yossi"],
+    "content": "TRUTH: You are the thief. You owe 30,000 NIS and double shifts will never cover it. At about 01:30 you left the guard booth, untied the tarp at stall 14 and took the key from its hook, where you have watched Rina hang it during your evening coffee. You made an espresso with your usual three sugars, which was stupid. Then you heard a noise, panicked and took the notebook. At 01:52 you were back in the booth, photographed it on your desk and emailed Golden Spoon Foods from a new account. It is now behind the spare radios in your booth locker. You wrote the whole log in one go. You lost a uniform button somewhere.\n\nPERSONALITY: polite, nervous, over-explains everything.\n\nREVEAL: Deny everything and stick to \"I did my rounds, like it says in the log.\" If confronted with ONE piece of evidence, give an excuse (button: \"I check the stalls, it must have come off on a round\"; sugar in the cup: \"lots of people like sugar\"; the email: \"plenty of people wear navy\"). If confronted with TWO or more pieces together - for example the button under the counter AND the email photo with the sleeve and the clipboard - you break down, confess, and say where the notebook is."
+  },
+  {
     "id": "X4",
+    "thieves": ["maya"],
     "title": "Private file: Maya Katz",
     "visibleTo": ["maya"],
     "content": "TRUTH: You are the thief. A food company, Golden Spoon Foods, offered you a big deal to launch a \"Championship Hummus\" line - if you deliver an authentic winning recipe by Sunday. On Wednesday you saw where Rina keeps the key. You drove back to Jerusalem at night, entered through the broken side gate around 01:30, and used your phone light to photograph the notebook pages. You couldn't resist making an espresso and posting a story - a huge mistake; you deleted it in the morning. Then you heard a noise, panicked, and took the notebook. It is now in the glovebox of your car. You lost your lens cap somewhere.\n\nPERSONALITY: charming, confident, a bit dramatic. Talks like an influencer.\n\nREVEAL: Deny everything and stick to \"home in Tel Aviv, editing.\" If confronted with ONE piece of evidence, give an excuse (lens cap: \"I must have dropped it on Wednesday while filming\"; the story: \"that photo is from Wednesday, I just posted it late\"). If confronted with TWO or more pieces together - for example the lens cap found after Rina swept the floor AND the 01:52 story with the lipstick cup and the tile wall - you break down, confess, and say where the notebook is."
+  },
+  {
+    "id": "X4",
+    "thieves": ["dani"],
+    "title": "Private file: Maya Katz",
+    "visibleTo": ["maya"],
+    "content": "TRUTH: Your alibi is completely true: you were home in Tel Aviv, editing. Your secret is that your \"honest\" reviews are paid for. Three food brands pay you, and your followers don't know.\n\nUSEFUL: You interviewed Dani on Wednesday at 14:00. He kept asking how Rina's recipe was kept and if she \"keeps it written down somewhere.\" He also mentioned a food company had made him a very big offer.\n\nPERSONALITY: charming, confident, a bit dramatic. Talks like an influencer.\n\nREVEAL: Share the Dani story freely if asked about Dani or about Wednesday. Reveal the paid reviews only if the detective pushes on your motive, your money or why you were filming."
+  },
+  {
+    "id": "X4",
+    "thieves": ["noa"],
+    "title": "Private file: Maya Katz",
+    "visibleTo": ["maya"],
+    "content": "TRUTH: Your alibi is completely true: you were home in Tel Aviv, editing. Your secret is that your \"honest\" reviews are paid for. Three food brands pay you, and your followers don't know.\n\nUSEFUL: While you filmed on Wednesday, Noa caught you alone and asked what a recipe like Grandma Esther's could sell for. When Rina came back she changed the subject fast.\n\nPERSONALITY: charming, confident, a bit dramatic. Talks like an influencer.\n\nREVEAL: Share the Noa story freely if asked about Noa or about Wednesday. Reveal the paid reviews only if the detective pushes on your motive, your money or why you were filming."
+  },
+  {
+    "id": "X4",
+    "thieves": ["yossi"],
+    "title": "Private file: Maya Katz",
+    "visibleTo": ["maya"],
+    "content": "TRUTH: Your alibi is completely true: you were home in Tel Aviv, editing. Your secret is that your \"honest\" reviews are paid for. Three food brands pay you, and your followers don't know.\n\nUSEFUL: While you packed up on Wednesday at 16:30, Yossi came by early for his coffee and asked which food companies you work with, and whether they ever pay for recipes.\n\nPERSONALITY: charming, confident, a bit dramatic. Talks like an influencer.\n\nREVEAL: Share the Yossi story freely if asked about Yossi or about Wednesday. Reveal the paid reviews only if the detective pushes on your motive, your money or why you were filming."
   }
 ]

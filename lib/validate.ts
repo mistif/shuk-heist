@@ -12,7 +12,10 @@ const Message = z.discriminatedUnion("role", [
   z.object({ role: z.literal("assistant"), content: z.string().min(1).max(ASSISTANT_MESSAGE_MAX) }),
 ]);
 
+const CaseId = z.string().min(8).max(64);
+
 export const ChatRequest = z.object({
+  caseId: CaseId,
   messages: z
     .array(Message)
     .min(1)
@@ -22,6 +25,7 @@ export const ChatRequest = z.object({
 });
 
 export const AccuseRequest = z.object({
+  caseId: CaseId,
   suspect: z.enum(SUSPECT_IDS),
   final: z.boolean(),
 });

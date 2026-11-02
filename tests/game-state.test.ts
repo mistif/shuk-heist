@@ -114,9 +114,9 @@ describe("save and load", () => {
 
   it("starts fresh on corrupt JSON, the wrong shape or blocked storage", () => {
     const storage = fakeStorage();
-    storage.setItem("shuk-heist-game", "{not json");
+    storage.setItem("shuk-heist-case", "{not json");
     expect(loadGame(storage)).toBeNull();
-    storage.setItem("shuk-heist-game", JSON.stringify({ players: "many" }));
+    storage.setItem("shuk-heist-case", JSON.stringify({ players: "many" }));
     expect(loadGame(storage)).toBeNull();
     expect(loadGame(blocked)).toBeNull();
   });
@@ -128,7 +128,7 @@ describe("save and load", () => {
 
     const older: Partial<ReturnType<typeof newGame>> = newGame(2, "old");
     delete older.difficulty;
-    storage.setItem("shuk-heist-game", JSON.stringify(older));
+    storage.setItem("shuk-heist-case", JSON.stringify(older));
     expect(loadGame(storage)?.difficulty).toBe("detective");
   });
 

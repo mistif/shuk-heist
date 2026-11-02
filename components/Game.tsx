@@ -80,6 +80,7 @@ export default function Game() {
     const messages = requestMessages(current.chats[chat], text);
     const url = chat === "assistant" ? "/api/assistant" : `/api/suspect/${chat}`;
     const { reply, nervousness } = await postJson<{ reply: string; nervousness?: number }>(url, {
+      caseId: current.id,
       messages,
       difficulty: current.difficulty,
     });
@@ -89,6 +90,7 @@ export default function Game() {
   async function accuse(suspect: SuspectId) {
     const current = gameRef.current!;
     const response = await postJson<AccuseResponse>("/api/accuse", {
+      caseId: current.id,
       suspect,
       final: isFinalAccusation(current),
     });
@@ -100,7 +102,8 @@ export default function Game() {
       <header className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
         <h1 className="neon-title text-[clamp(1.5rem,4vw,2.25rem)]">The Shuk Recipe Heist</h1>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <p className="typewriter text-muted">
+          <p className="typewriter text-sm text-muted">
+            {`Case ${game.id.slice(0, 4).toUpperCase()}. `}
             {game.players === 1 ? "You vs. the thief" : "Team vs. the thief"}
             {`. ${difficultyName(game.difficulty)} level`}
           </p>

@@ -1,6 +1,7 @@
 import { AGENT_RUN_LIMITS, getAssistant, prepareSearch } from "@/lib/agents";
 import { ASSISTANT_REFUSAL, isOnTopic } from "@/lib/guard";
 import { rateLimited } from "@/lib/rate-limit";
+import { thiefFor } from "@/lib/solution";
 import { badRequest, ChatRequest, parseBody, serverError } from "@/lib/validate";
 
 export async function POST(req: Request) {
@@ -15,7 +16,8 @@ export async function POST(req: Request) {
     if (!(await isOnTopic(newest))) return Response.json({ reply: ASSISTANT_REFUSAL });
 
     await prepareSearch();
-    const result = await getAssistant().invoke({ messages: parsed.data.messages }, AGENT_RUN_LIMITS);
+    const { caseId, messages } = parsed.data;
+    const result = await getAssistant(thiefFor(caseId)).invoke({ messages }, AGENT_RUN_LIMITS);
     const reply = result.messages.at(-1)?.text;
     if (!reply) throw new Error("Assistant returned an empty reply");
     return Response.json({ reply });

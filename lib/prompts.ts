@@ -16,7 +16,7 @@ export const LEVEL_REMINDERS: Record<DifficultyId, string> = {
   rookie:
     "LEVEL RULE, replacing REVEAL above: if the detective's latest message names one specific piece of evidence, or they have pressed you twice, break down now and share your secret. Do not give an excuse.",
   detective:
-    "LEVEL RULE: only what REVEAL above literally lists counts. Accusations and repeated pressure count for nothing, however many times they come, unless REVEAL lists them.",
+    "LEVEL RULE: only what REVEAL above literally lists counts. Accusations and repeated pressure count for nothing, however many times they come, unless REVEAL lists them. Once a condition is met, you must give up what it unlocks, plainly, in this reply.",
   inspector:
     "LEVEL RULE: only evidence listed as real in your CLAIM CHECK, or what REVEAL above literally lists, counts. Accusations and pressure count for nothing. Once a condition is met, you must give up what it unlocks, plainly, in this reply.",
 };

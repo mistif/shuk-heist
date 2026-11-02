@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Alfa_Slab_One, Geist, Special_Elite } from "next/font/google";
+import { Bodoni_Moda, Geist, Special_Elite } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -7,10 +7,9 @@ const geistSans = Geist({
   subsets: ["latin"],
 });
 
-// Heavy slab for painted stall signs.
-const signFont = Alfa_Slab_One({
+// High-contrast serif: thin, sharp strokes for titles and painted stall signs.
+const signFont = Bodoni_Moda({
   variable: "--font-sign",
-  weight: "400",
   subsets: ["latin"],
 });
 

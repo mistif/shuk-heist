@@ -10,17 +10,22 @@ export type Viewer = "detective" | SuspectId;
 export const SEARCH_UNAVAILABLE =
   "Search is unavailable right now. State no facts, and say briefly that you can't answer at the moment.";
 
-export const canSee = (viewer: Viewer) => (doc: Document) =>
-  doc.metadata.visibleTo.includes(viewer);
+export const canSee = (viewer: Viewer, thief: SuspectId) => (doc: Document) =>
+  doc.metadata.visibleTo.includes(viewer) && doc.metadata.thieves.includes(thief);
 
-export function makeSearchTool(viewer: Viewer, loadStore = getStore, levelRule?: string) {
+export function makeSearchTool(
+  viewer: Viewer,
+  thief: SuspectId,
+  loadStore = getStore,
+  levelRule?: string,
+) {
   return tool(
     async ({ query }) => {
       // LangChain hands tool errors to the model as text, so catch them here:
       // the model must not see error details or answer as if it had searched.
       try {
         const store = await loadStore();
-        const docs = await store.similaritySearch(query, 4, canSee(viewer));
+        const docs = await store.similaritySearch(query, 4, canSee(viewer, thief));
         if (docs.length === 0) return "No documents found.";
         const found = docs
           .map((d) => `[${d.metadata.id}] ${d.metadata.title}\n${d.pageContent}`)

@@ -2,7 +2,8 @@ import * as z from "zod";
 import { DEFAULT_DIFFICULTY, DIFFICULTY_IDS, type DifficultyId } from "./difficulty";
 import { SUSPECT_IDS, type SuspectId } from "./suspects";
 
-const STORAGE_KEY = "shuk-heist-game";
+// A new key, because a game saved when Maya was always the thief would no longer add up.
+const STORAGE_KEY = "shuk-heist-case";
 // Below the server's cap of 100, so a long interrogation keeps working.
 const HISTORY_SENT = 80;
 // Matches the server's limit on an assistant message.
